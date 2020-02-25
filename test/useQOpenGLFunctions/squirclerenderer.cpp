@@ -85,10 +85,33 @@ void SquircleRenderer::paint()
     int matrixLocation = m_program->uniformLocation("matrix");
     int colorLocation = m_program->uniformLocation("color");
 
+    //    static GLfloat const triangleVertices[] = {
+    //        60.0f,        10.0f,        0.0f,
+    //        110.0f,        110.0f,        0.0f,
+    //        10.0f,        110.0f,        0.0f,
+
+    //        160.0f,        10.0f,        0.0f,
+    //        210.0f,        110.0f,        0.0f,
+    //        110.0f,        110.0f,        0.0f,
+
+    //    };
+    //    static GLfloat const triangleVertices[] = {
+    //        60.0f,        10.0f,        0.0f,
+    //        110.0f,        110.0f,        0.0f,
+    //        10.0f,        110.0f,        0.0f,
+
+    //    };
     static GLfloat const triangleVertices[] = {
-        60.0f, 10.0f, 0.0f,
-        110.0f, 110.0f, 0.0f,
-        10.0f, 110.0f, 0.0f
+        0.0f,
+        0.0f,
+        0.0f,
+        51.0f,
+        0.0f,
+        0.0f,
+        25.0f,
+        51.0f,
+        0.0f,
+
     };
 
     QColor color(0, m_t * 255, 0, 255);
@@ -106,6 +129,7 @@ void SquircleRenderer::paint()
     m_program->setUniformValue(colorLocation, color);
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    //    glDrawArrays(GL_TRIANGLES, 3, 6);
 
     m_program->disableAttributeArray(vertexLocation);
     m_window->resetOpenGLState();

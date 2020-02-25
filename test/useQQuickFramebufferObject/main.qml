@@ -12,7 +12,7 @@ Item {
         height: 300
        // rotation: 30
         ///scale : 1.2
-        texture : ":/texture.png"
+        texture : ":/wall.jpg"
 
         SequentialAnimation on t {
             NumberAnimation { to: 1; duration: 2500; easing.type: Easing.InQuad }

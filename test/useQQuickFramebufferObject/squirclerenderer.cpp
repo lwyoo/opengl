@@ -3,6 +3,7 @@
 #include <QSGTextureProvider>
 //#include <QtGui/QOpenGLContext>
 //#include <QtGui/QOpenGLShaderProgram>
+#include <QDebug>
 #include <QtGui/QOpenGLFunctions>
 #include <QtQuick/qquickwindow.h>
 
@@ -17,6 +18,12 @@ SquircleRenderer::SquircleRenderer(const Squircle* item)
 
     //qquickwindow
     m_texture = item->window()->createTextureFromImage(image);
+    GLint tempM;
+    GLint tempn;
+    glGetIntegerv(GL_MAJOR_VERSION, &tempM);
+    glGetIntegerv(GL_MINOR_VERSION, &tempn);
+
+    qDebug() << "GL_MAJOR_VERSION : " << tempM << "GL_MINOR_VERSION : " << tempn;
 }
 
 SquircleRenderer::~SquircleRenderer()
@@ -32,6 +39,91 @@ QOpenGLFramebufferObject* SquircleRenderer::createFramebufferObject(const QSize&
     return new QOpenGLFramebufferObject(size, format);
 }
 
+//void SquircleRenderer::render()
+//{
+//    m_t = 1.0;
+//    QOpenGLFunctions* oglFunctions = QOpenGLContext::currentContext()->functions();
+//    if (m_program == nullptr) {
+//        m_program = new QOpenGLShaderProgram();
+//        m_program->addCacheableShaderFromSourceCode(QOpenGLShader::Vertex,
+//            "attribute highp vec4 vertices;"
+//            "attribute lowp vec2 a_Tex;\n"
+//            "uniform highp mat4 matrix;"
+//            "varying vec2 vTexCoord;\n"
+//            "void main() {"
+//            "vTexCoord = a_Tex*2;"
+//            "        gl_Position = matrix * vertices;"
+//            //   "   gl_Position = vertices;"
+//            "}");
+//        m_program->addCacheableShaderFromSourceCode(QOpenGLShader::Fragment,
+//            "varying vec2 vTexCoord;\n"
+//            "uniform sampler2D texRGB;\n"
+//            "void main() {"
+//            "    gl_FragColor = texture2D(texRGB, vTexCoord);"
+//            "}");
+
+//        m_program->bindAttributeLocation("vertices", 0);
+//        m_program->bindAttributeLocation("a_Tex", 1);
+
+//        m_program->link();
+//    }
+
+//    m_program->bind();
+//    int m_matrixUniform = m_program->uniformLocation("matrix");
+//    QMatrix4x4 modelview;
+//    QMatrix4x4 proj;
+
+//    modelview.setToIdentity();
+//    proj.setToIdentity();
+//    proj.ortho(0.0f, static_cast<float>(m_viewportSize.width()), 0.0f, static_cast<float>(m_viewportSize.height()), -100.0f, 100.0f);
+//    QMatrix4x4 trv = proj * modelview;
+//    m_program->setUniformValue(m_matrixUniform, trv);
+//    m_program->enableAttributeArray(0);
+//    m_program->enableAttributeArray(1);
+//    oglFunctions->glEnable(GL_BLEND);
+//    oglFunctions->glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+//    float values[] = {
+//        0,
+//        0,
+
+//        100,
+//        0,
+
+//        0,
+//        100,
+
+//        100,
+//        100,
+//    };
+
+//    float texcoord[] = {
+//        0, 0,
+
+//        1, 0,
+
+//        0, 1,
+
+//        1, 1
+//    };
+
+//    m_program->setAttributeArray(0, GL_FLOAT, values, 2);
+//    m_program->setAttributeArray(1, GL_FLOAT, texcoord, 2);
+//    oglFunctions->glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
+//    oglFunctions->glClearColor(1, 0, 0, 1);
+//    oglFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    const int texUnformID = oglFunctions->glGetUniformLocation(m_program->programId(), "texRGB");
+
+//    oglFunctions->glUniform1i(texUnformID, 0);
+//    if (m_texture)
+//        m_texture->bind(); //opengl bind? call
+
+//    oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+//    m_program->disableAttributeArray(0);
+//    m_program->disableAttributeArray(1);
+//    m_program->release();
+//}
 void SquircleRenderer::render()
 {
     m_t = 1.0;
@@ -44,7 +136,7 @@ void SquircleRenderer::render()
             "uniform highp mat4 matrix;"
             "varying vec2 vTexCoord;\n"
             "void main() {"
-            "vTexCoord = a_Tex*2;"
+            "vTexCoord = a_Tex;"
             "        gl_Position = matrix * vertices;"
             //   "   gl_Position = vertices;"
             "}");
@@ -80,14 +172,14 @@ void SquircleRenderer::render()
         0,
         0,
 
-        100,
+        512,
         0,
 
         0,
-        100,
+        512,
 
-        100,
-        100,
+        512,
+        512,
     };
 
     float texcoord[] = {
@@ -99,10 +191,55 @@ void SquircleRenderer::render()
 
         1, 1
     };
+    //    float values[] = {
+    //        0,
+    //        0,
 
-    m_program->setAttributeArray(0, GL_FLOAT, values, 2);
-    m_program->setAttributeArray(1, GL_FLOAT, texcoord, 2);
-    oglFunctions->glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
+    //        512,
+    //        0,
+
+    //        512 / 2,
+    //        512,
+
+    //    };
+    //    float texcoord[] = {
+    //        0,
+    //        0,
+
+    //        1,
+    //        0,
+
+    //        0.5,
+    //        1,
+
+    //    };
+    //    float values[] = {
+    //        512 / 2,
+    //        0,
+
+    //        0,
+    //        512,
+
+    //        512,
+    //        512,
+
+    //    };
+
+    //    float texcoord[] = {
+    //        0.5,
+    //        0,
+
+    //        0,
+    //        1,
+
+    //        1,
+    //        1,
+
+    //    };
+
+    m_program->setAttributeArray(0, GL_FLOAT, values, 2); // vertex shader : vertices
+    m_program->setAttributeArray(1, GL_FLOAT, texcoord, 2); // vertex shader : a_Tex
+    //    oglFunctions->glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
     oglFunctions->glClearColor(1, 0, 0, 1);
     oglFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const int texUnformID = oglFunctions->glGetUniformLocation(m_program->programId(), "texRGB");
@@ -112,6 +249,7 @@ void SquircleRenderer::render()
         m_texture->bind(); //opengl bind? call
 
     oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    //    oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 
     m_program->disableAttributeArray(0);
     m_program->disableAttributeArray(1);
