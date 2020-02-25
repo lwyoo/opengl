@@ -2,14 +2,14 @@ import QtQuick 2.0
 import OpenGLUnderQML 1.0
 
 Item {
-    width: 500
-    height: 500
+    width: 1000
+    height: 1000
 
     Squircle {
         x : 0
         y : 0
-        width: 300
-        height: 300
+        width: 5120
+        height: 5120
        // rotation: 30
         ///scale : 1.2
         texture : ":/wall.jpg"
