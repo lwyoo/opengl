@@ -87,14 +87,14 @@ void SquircleRenderer::render()
         0,
         0,
 
-        512,
+        5120,
         0,
 
         0,
-        512,
+        5120,
 
-        512,
-        512,
+        5120,
+        5120,
     };
 
     float texcoord[] = {
@@ -123,11 +123,13 @@ void SquircleRenderer::render()
     //GL_CLAMP_TO_EDGE: 0과 1 사이의 좌표를 고정합니다. 결과적으로 큰 좌표가 가장자리에 고정되어 가장자리의 패턴이 늘어나게 됩니다.
     //GL_CLAMP_TO_BORDER: 범위 밖의 좌표에 사용자가 지정한 테두리 색이 지정됩니다.
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 
+    //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
     m_program->disableAttributeArray(0);
