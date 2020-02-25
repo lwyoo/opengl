@@ -191,51 +191,51 @@ void SquircleRenderer::render()
 
     //        1, 1
     //    };
-    float values[] = {
-        0,
-        0,
-
-        512,
-        0,
-
-        512 / 2,
-        512,
-
-    };
-    float texcoord[] = {
-        0,
-        0,
-
-        1,
-        0,
-
-        0.5,
-        1,
-
-    };
     //    float values[] = {
+    //        0,
+    //        0,
+
+    //        512,
+    //        0,
+
     //        512 / 2,
-    //        0,
-
-    //        0,
-    //        512,
-
-    //        512,
     //        512,
 
     //    };
-
     //    float texcoord[] = {
+    //        0,
+    //        0,
+
+    //        1,
+    //        0,
+
     //        0.5,
-    //        0,
-
-    //        0,
-    //        1,
-
-    //        1,
     //        1,
 
     //    };
+    float values[] = {
+        512 / 2,
+        0,
+
+        0,
+        512,
+
+        512,
+        512,
+
+    };
+
+    float texcoord[] = {
+        0.5,
+        0,
+
+        0,
+        1,
+
+        1,
+        1,
+
+    };
 
     m_program->setAttributeArray(0, GL_FLOAT, values, 2); // vertex shader : vertices
     m_program->setAttributeArray(1, GL_FLOAT, texcoord, 2); // vertex shader : a_Tex
