@@ -168,29 +168,6 @@ void SquircleRenderer::render()
     oglFunctions->glEnable(GL_BLEND);
     oglFunctions->glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-    float values[] = {
-        0,
-        0,
-
-        512,
-        0,
-
-        0,
-        512,
-
-        512,
-        512,
-    };
-
-    float texcoord[] = {
-        0, 0,
-
-        1, 0,
-
-        0, 1,
-
-        1, 1
-    };
     //    float values[] = {
     //        0,
     //        0,
@@ -198,21 +175,44 @@ void SquircleRenderer::render()
     //        512,
     //        0,
 
-    //        512 / 2,
+    //        0,
     //        512,
 
+    //        512,
+    //        512,
     //    };
+
     //    float texcoord[] = {
-    //        0,
-    //        0,
+    //        0, 0,
 
-    //        1,
-    //        0,
+    //        1, 0,
 
-    //        0.5,
-    //        1,
+    //        0, 1,
 
+    //        1, 1
     //    };
+    float values[] = {
+        0,
+        0,
+
+        512,
+        0,
+
+        512 / 2,
+        512,
+
+    };
+    float texcoord[] = {
+        0,
+        0,
+
+        1,
+        0,
+
+        0.5,
+        1,
+
+    };
     //    float values[] = {
     //        512 / 2,
     //        0,
@@ -248,8 +248,8 @@ void SquircleRenderer::render()
     if (m_texture)
         m_texture->bind(); //opengl bind? call
 
-    oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    //    oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+    //    oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 
     m_program->disableAttributeArray(0);
     m_program->disableAttributeArray(1);
