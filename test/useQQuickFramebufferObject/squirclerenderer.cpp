@@ -41,7 +41,7 @@ QOpenGLFramebufferObject* SquircleRenderer::createFramebufferObject(const QSize&
 
 void SquircleRenderer::render()
 {
-    m_t = 1.0;
+    //    qDebug() << "m_t : " << m_t;
     QOpenGLFunctions* oglFunctions = QOpenGLContext::currentContext()->functions();
     if (m_program == nullptr) {
         m_program = new QOpenGLShaderProgram();
@@ -74,6 +74,8 @@ void SquircleRenderer::render()
     QMatrix4x4 proj;
 
     modelview.setToIdentity();
+    modelview.rotate(m_t * 360, QVector3D(1.0f, 0.0f, 0.0f));
+
     proj.setToIdentity();
     proj.ortho(0.0f, static_cast<float>(m_viewportSize.width()), 0.0f, static_cast<float>(m_viewportSize.height()), -100.0f, 100.0f);
     QMatrix4x4 trv = proj * modelview;
@@ -87,24 +89,24 @@ void SquircleRenderer::render()
         0,
         0,
 
-        5120,
+        512,
         0,
 
         0,
-        5120,
+        512,
 
-        5120,
-        5120,
+        512,
+        512,
     };
 
     float texcoord[] = {
         0, 0,
 
-        2, 0,
+        1, 0,
 
-        0, 2,
+        0, 1,
 
-        2, 2
+        1, 1
     };
 
     m_program->setAttributeArray(0, GL_FLOAT, values, 2);
@@ -126,10 +128,9 @@ void SquircleRenderer::render()
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 
-    //    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    oglFunctions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     oglFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
     m_program->disableAttributeArray(0);
@@ -271,6 +272,7 @@ void SquircleRenderer::render()
 void SquircleRenderer::setT(qreal t)
 {
     m_t = t;
+    //    update();
 }
 
 void SquircleRenderer::setViewportSize(const QSize& size)
@@ -285,5 +287,7 @@ void SquircleRenderer::setWindow(QQuickWindow* window)
 
 void SquircleRenderer::sync()
 {
+    //    qDebug() << Q_FUNC_INFO << m_item->t();
+    this->setT(m_item->t());
     this->m_viewportSize = QSize(m_item->width(), m_item->height());
 }

@@ -1,6 +1,6 @@
 #include "squircle.h"
+#include <QDebug>
 #include <QtQuick/qquickwindow.h>
-
 Squircle::Squircle()
     : m_t(0)
     , m_renderer(nullptr)
@@ -16,13 +16,14 @@ qreal Squircle::t() const
 
 void Squircle::setT(qreal t)
 {
+    qDebug() << Q_FUNC_INFO << "T : " << t;
     if (t == m_t)
         return;
     m_t = t;
     //update();
     emit tChanged();
-    if (window())
-        window()->update();
+    //    if (window())
+    //        window()->update();
 }
 
 QString Squircle::texture() const
